@@ -1,5 +1,5 @@
 <?php
-public function conectar() {
+function conectar() {
     $host = "localhost";      
     $usuario = "root";         
     $clave = "";          

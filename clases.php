@@ -18,9 +18,13 @@ class Usuario {
         try {
             require_once 'conexion.php';
             $c = conectar();
-            $sql = "select * from usuarios where email='$email';";
-            $resulset = $c->query($sql);
-            if($c->affected_rows>0){
+            $sql = "SELECT * FROM usuarios WHERE email = ?";
+            $stmt = $c->prepare($sql);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $resulset = $stmt->get_result();
+
+            if($resulset->num_rows > 0){
                 $registro=$resulset->fetch_assoc();
                 if ($registro['clave'] == $clave) {
                     return $registro;
@@ -28,7 +32,7 @@ class Usuario {
             }
             return false;
         } catch (Throwable $e) {
-            return false;
+            die("Error: " . $e->getMessage());
         }
     }
 }
