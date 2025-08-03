@@ -94,5 +94,124 @@ class Usuario {
             return false;
         }
     }
+
+
+
+    public static function buscar($bu,$op){
+            try{
+                $c=conectar();
+                switch ($op){
+                    case 'dni':
+                    if (is_numeric($bu)){
+                        $sql="select * from usuarios where dni=$bu;";
+                    }
+                    else{
+                        echo "<h2>Error. Escriba un DNI valido</h2>";
+                        exit();
+                    }
+                    break;
+
+                    case 'nombre':
+                    $sql="select * from usuarios where nombre like '%$bu%';";
+                    break;
+
+                    case 'apellido':
+                    $sql="select * from usuarios where apellido like '%$bu%';";
+                    break;
+                    
+                    case 'email':
+                    $sql="select * from usuarios where email like '%$bu%';";
+                    break;
+
+                    default:
+                    echo "Error";
+                    break;
+                }
+                $resulset=$c->query($sql);
+            
+                if ($c->affected_rows>0){
+                    while($registro=$resulset->fetch_assoc()){
+                        $lista[]=$registro;
+                    }
+                }
+                else{
+                    $lista=false;
+                }
+            }
+            catch(Throwable $e){
+                $lista=false;
+            }
+            finally{
+                return $lista;
+            }
+        }
+
+
+    public static function tomarDatos($id){
+        try{
+            $c=conectar();
+            $sql = "select * from usuarios where usu_id=$id;";
+            $resulset = $c->query($sql);
+
+            if($c->affected_rows>0){
+                $registro=$resulset->fetch_assoc();
+            }
+            else{
+                $registro=false;
+            }
+        }
+        catch(Throwable $e){
+            die("Error: " . $e->getMessage());
+            $registro=false;
+        }
+        finally{
+            return $registro;
+        }
+    }
+
+
+    public function modificar($id){
+        try{
+            $c=conectar();
+            $sql="update usuarios set nombre='$this->nombre', apellido='$this->apellido', email='$this->email' where usu_id=$id";
+            // Verificar si ya existe un usuario con ese email o DNI
+            $sql = "SELECT * FROM usuarios WHERE email = '$this->email'";
+            $resulset = $c->query($sql);
+            if($resulset->num_rows > 0){
+                return false;
+            }
+            // Si no existe, proceder a actualizar el usuario
+            $c->query($sql);
+            if ($c->affected_rows>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(Throwable $e){
+            return false;
+        }
+    }
+
+
+
+    public static function eliminar($id){
+        try{
+            $c=conectar();
+            $sql="delete from usuarios where usu_id=$id";
+            $c->query($sql);
+
+            if ($c->affected_rows>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(Thowable $e){
+            return false;
+        }
+    }
 }
 ?>

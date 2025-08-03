@@ -2,7 +2,7 @@ CREATE DATABASE ambd;
 USE ambd;
 
 CREATE TABLE roles(
-	rol_id INT PRIMARY KEY AUTO_INCREMENT,
+	rol_id INT PRIMARY KEY,
     rol_desc VARCHAR(30)
 );
 
@@ -53,3 +53,10 @@ CREATE TABLE usuarios_cursos(
     FOREIGN KEY (usu_id) REFERENCES usuarios(usu_id),
     FOREIGN KEY (cur_id) REFERENCES cursos(cur_id)
 );
+
+insert into roles (rol_id, rol_desc) values
+(1,'admin'),
+(2,'usuario');
+
+insert into usuarios(nombre,apellido,clave,dni,email,rol_id) values
+('admin','todopoderoso',1234,12345678,'admin@mostaza.com',1);
