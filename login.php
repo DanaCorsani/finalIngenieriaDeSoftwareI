@@ -1,7 +1,5 @@
 <?php
 require_once 'clases.php';
-echo $_POST['usuario'];
-echo $_POST['clave'];
 $resultado = Usuario::iniciarSesion($_POST['usuario'], $_POST['clave']);
 
 if ($resultado) {
