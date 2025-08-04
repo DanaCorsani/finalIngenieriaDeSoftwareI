@@ -214,4 +214,104 @@ class Usuario {
         }
     }
 }
+
+
+
+
+
+
+
+class Curso {
+    private $nombre;
+    private $area;
+    private $desc;
+
+    public function __construct($nombre, $area, $desc) {
+        $this->nombre = $nombre;
+        $this->area = $area;
+        $this->desc = $desc;
+    }
+
+    public static function listar(){
+        try{
+            $c=conectar();
+            $sql = "select * from cursos;";
+
+            $resulset = $c->query($sql);
+
+            if($resulset->num_rows > 0){
+                while($registro=$resulset->fetch_assoc()){
+                    $lista[] = $registro;
+                }
+            }
+            else{
+                $lista=false;
+            }
+        }
+        catch(Throwable $e){
+            die("Error: " . $e->getMessage());
+            $lista=false;
+        }
+        finally{
+            return $lista;
+        }
+    }
+
+
+    public function cargar(){
+        try{
+            $c=conectar();
+            $sql="insert into cursos (nombre,area,cur_desc,estado) values ('$this->nombre','$this->area','$this->desc','inactivo');";
+            $c->query($sql);
+
+            if ($c->affected_rows>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(Throwable $e){
+            die("Error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+
+
+    public static function buscar($bu,$op){
+            try{
+                $c=conectar();
+                switch ($op){
+                    case 'nombre':
+                    $sql="select * from cursos where nombre like '%$bu%';";
+                    break;
+
+                    case 'area':
+                    $sql="select * from cursos where area like '%$bu%';";
+                    break;
+
+                    default:
+                    echo "Error";
+                    break;
+                }
+                $resulset=$c->query($sql);
+            
+                if ($c->affected_rows>0){
+                    while($registro=$resulset->fetch_assoc()){
+                        $lista[]=$registro;
+                    }
+                }
+                else{
+                    $lista=false;
+                }
+            }
+            catch(Throwable $e){
+                $lista=false;
+            }
+            finally{
+                return $lista;
+            }
+        }
+}
 ?>
