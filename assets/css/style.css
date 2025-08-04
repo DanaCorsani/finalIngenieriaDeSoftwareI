@@ -5,15 +5,179 @@ box-sizing: border-box;
 }
 
 :root{
-    --primary-color: 90, 0, 2;
-    --secondary-color: 237, 155, 64;
-    --accent-color: 164, 6, 6;
+    --primary-color: #A30015;
+    --secondary-color: #F6AE2D;
+    --tertiary-color: #755C1B;
+    --accent-color: #0CCA4A;
     /*35, 0, 7*/
     /*251, 251, 251*/
 }
 
 body{
-    border: 3px solid var(--primary-color);
+    height: 100vh;
+    display: grid;
+    grid-template-areas: 
+    "header header"
+    "aside main"
+    "footer footer"
+    ;
+    grid-template-columns: 500px auto;
+    grid-template-rows: 100px auto 40px;
+    /* font-family: ; */
+    background-color: var(--primary-color);
 }
 
+.ourBurgers{
+    display: flex;
+    justify-content: center;
+}
+/*arreglar mainTitle*/
+#mainTitle{
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+/*arreglar imagen tienen que quedar apiladas. no una al lado de la otra.*/
+.img{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    width: 400px;
+}
 
+header{
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 5px solid #450101;
+    border-radius: 10px;
+    grid-area: header;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main{
+    grid-area: main;
+    background-image: url("https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; agregue esto y no se porque hay una barra lateral ahora */
+    background-size: cover;
+    background-position: center;
+    overflow: auto; /*para que cuando agregamos cosa podamos scrolear hacia abajo y verlas*/
+    scrollbar-color: var(--secondary-color);
+    border: 5px solid var(--accent-color);
+    border-radius: 20px;
+}
+
+.aside{
+    grid-area: aside;
+    background-color:#2c1a0d;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(117, 92, 27, 0.3), /* var(--tertiary-color) con transparencia */
+        rgba(67, 40, 7, 0.7)
+    );
+    border: 5px solid var(--secondary-color);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+footer{
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+    color: #450101;
+    font-weight: 900;
+    /* position: fixed;    /*pongo una posicion fija para el texto del footer
+    bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado.
+    left: 0;
+    right: 0; */
+}
+#rights{
+    position: fixed;
+    bottom: 0;
+}
+#names{
+    position: fixed;
+    right: 0;
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.1px; /*lo cambio de 0.3 a 0.1 porque la lechuga queda muy separada del bottom bread no se pq (cuando le agrego height)*/
+    /*margin: 50px; /*no funciona no entiend o porque*/
+    /* padding: 50px;*/
+    /* align-items: center; no esta funcionando?  */
+    /* padding: 90px; */
+    animation: burgerPress 5s;
+}
+
+.flex-container:active{
+    transform: translateY(6px);
+
+}
+
+.grid-container{
+    display: grid;      /*propiedades mas utilizadas en displaygrid: */
+    grid-template-columns: repeat(3, 1fr);      /*divido una grilla en 3 columnas      3 columnas, 1 fraccion. esta es la unidad de medida q se utiliza*/
+    /* grid-template-rows: ; */
+    /* gap: 3px; */
+    row-gap: 10px;
+    column-gap: 20px;
+    
+}
+
+.logInBread{
+    background-color: #e5cb7a;
+    padding: 30px;
+    width: 350px;
+    text-align: center;
+}
+
+#logInBreadTop{
+    border-radius: 50px 50px 0px 0px;
+}
+
+#logInBreadBottom{
+    border-radius: 0px 0px 50px 50px;
+}
+
+.logInBurger{
+    background-color: #450101;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 340px;
+    text-align: center;
+}
+
+.logInCheese{
+    background-color: var(--secondary-color);
+    padding: 4px;
+    border-radius: 60px 60px 0px 0px ;
+    width: 340px;
+    text-align: center;
+}
+.logInTomato{
+    background-color: #ec3521;
+    padding: 11px;
+    border-radius: 13px;
+    height: 41px;
+    width: 300px;
+    text-align: center;
+}
+.logInLettuce{
+    background-color: #32c704;
+    padding: 6px;
+    border-radius: 30px;
+    height: 31px;
+    width: 350px;
+    text-align: center;
+}
