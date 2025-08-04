@@ -93,8 +93,8 @@
             </form>
             <?php
             if (isset($_POST["cargar"])) {
-            $usuario = new Curso($_POST['nombre'], $_POST['area'], $_POST['desc'], $_POST['url'], $_POST['documento']);
-            $resultado=$usuario->cargar();
+            $curso = new Curso($_POST['nombre'], $_POST['area'], $_POST['desc'], $_POST['url'], $_POST['documento']);
+            $resultado=$curso->cargar();
 
             if($resultado==true){
                 echo "<h2>Curso cargado correctamente</h2>";

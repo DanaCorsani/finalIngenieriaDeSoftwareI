@@ -175,13 +175,6 @@ class Usuario {
         try{
             $c=conectar();
             $sql="update usuarios set nombre='$this->nombre', apellido='$this->apellido', email='$this->email' where usu_id=$id";
-            // Verificar si ya existe un usuario con ese email o DNI
-            $sql = "SELECT * FROM usuarios WHERE email = '$this->email'";
-            $resulset = $c->query($sql);
-            if($resulset->num_rows > 0){
-                return false;
-            }
-            // Si no existe, proceder a actualizar el usuario
             $c->query($sql);
             if ($c->affected_rows>0){
                 return true;
@@ -350,6 +343,23 @@ class Curso {
             return $c->affected_rows > 0;
         } catch (Throwable $e) {
             die("Error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function modificar($id){
+        try{
+            $c=conectar();
+            $sql="update cursos set nombre='$this->nombre', area='$this->area', cur_desc='$this->desc', video='$this->video', pdf='$this->documento' where cur_id=$id";
+            $c->query($sql);
+            if ($c->affected_rows>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(Throwable $e){
             return false;
         }
     }

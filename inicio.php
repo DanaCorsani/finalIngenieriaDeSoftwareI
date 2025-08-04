@@ -8,7 +8,6 @@
 </head>
 <body>
     <a href="cursos.php"><button>Cursos</button></a>
-    <a href="perfil.php"><button>Mi Perfil</button></a>
     <a href="usuarios.php"><button>Usuarios</button></a>
     <a href="mensaje.php"><button>Enviar un mensaje</button></a>
 </body>
