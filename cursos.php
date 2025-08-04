@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="favicon.png" type="image/png">
     <title>Cursos</title>
 </head>
 <body>
@@ -71,7 +72,7 @@
         #region Cargar
         if (isset($_GET["altas"])){
             ?>
-            <form method="post" action="?altas">
+            <form id="formularioCurso" method="post" action="?altas">
                 <h2>Cargar Curso</h2>
                 <input type="hidden" name="cargar">
                 <label for="nombre">Nombre:</label><br>
@@ -81,14 +82,18 @@
                     <option value="cocina">Cocina</option>
                     <option value="atencion">Atención al Cliente</option>
                     <option value="limpieza">Limpieza</option>
-                </select>
+                </select><br>
+                <label for="url">Video:</label><br>
+                <input type="text" id="url" name="url" required><br>
+                <label for="documento">Documento: </label><br>
+                <input type="text" id="documento" name="documento"><br>
                 <label for="desc">Descripción:</label><br>
                 <textarea name="desc" id="desc"></textarea>
                 <input type="submit" value="Aceptar">
             </form>
             <?php
             if (isset($_POST["cargar"])) {
-            $usuario = new Curso($_POST['nombre'], $_POST['area'], $_POST['desc']);
+            $usuario = new Curso($_POST['nombre'], $_POST['area'], $_POST['desc'], $_POST['url'], $_POST['documento']);
             $resultado=$usuario->cargar();
 
             if($resultado==true){
@@ -101,5 +106,30 @@
         }
         
     ?>
+
+
+
+    <script>
+document.getElementById("formularioCurso").addEventListener("submit", function(event) {
+    const urlVideo = document.getElementById("url").value;
+    const urlDoc = document.getElementById("documento").value;
+
+    const regexYoutube = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}$/;
+    const regexGoogleDoc = /^https?:\/\/docs\.google\.com\/document\/d\/[\w-]+(\/.*)?$/;
+
+    if (!regexYoutube.test(urlVideo)) {
+        alert("Por favor ingresá una URL válida de un video de YouTube.");
+        event.preventDefault();
+        return;
+    }
+
+    if (urlDoc.trim() !== "" && !regexGoogleDoc.test(urlDoc)) {
+        alert("Por favor ingresá un enlace válido de un documento de Google Docs.");
+        event.preventDefault();
+        return;
+    }
+});
+</script>
+
 </body>
 </html>

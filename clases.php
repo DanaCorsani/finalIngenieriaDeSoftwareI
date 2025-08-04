@@ -1,5 +1,6 @@
 <?php
 require 'conexion.php';
+#region Usuario
 class Usuario {
     private $nombre;
     private $apellido;
@@ -220,16 +221,20 @@ class Usuario {
 
 
 
-
+#region Curso
 class Curso {
     private $nombre;
     private $area;
     private $desc;
+    private $video;
+    private $documento;
 
-    public function __construct($nombre, $area, $desc) {
+    public function __construct($nombre, $area, $desc, $video, $documento) {
         $this->nombre = $nombre;
         $this->area = $area;
         $this->desc = $desc;
+        $this->video = $video;
+        $this->documento = $documento;
     }
 
     public static function listar(){
@@ -261,7 +266,7 @@ class Curso {
     public function cargar(){
         try{
             $c=conectar();
-            $sql="insert into cursos (nombre,area,cur_desc,estado) values ('$this->nombre','$this->area','$this->desc','inactivo');";
+            $sql="insert into cursos (nombre,area,cur_desc,estado,video,pdf) values ('$this->nombre','$this->area','$this->desc','inactivo','$this->video','$this->documento');";
             $c->query($sql);
 
             if ($c->affected_rows>0){
@@ -280,38 +285,73 @@ class Curso {
 
 
     public static function buscar($bu,$op){
-            try{
-                $c=conectar();
-                switch ($op){
-                    case 'nombre':
-                    $sql="select * from cursos where nombre like '%$bu%';";
-                    break;
+        try{
+            $c=conectar();
+            switch ($op){
+                case 'nombre':
+                $sql="select * from cursos where nombre like '%$bu%';";
+                break;
 
-                    case 'area':
-                    $sql="select * from cursos where area like '%$bu%';";
-                    break;
+                case 'area':
+                $sql="select * from cursos where area like '%$bu%';";
+                break;
 
-                    default:
-                    echo "Error";
-                    break;
-                }
-                $resulset=$c->query($sql);
-            
-                if ($c->affected_rows>0){
-                    while($registro=$resulset->fetch_assoc()){
-                        $lista[]=$registro;
-                    }
-                }
-                else{
-                    $lista=false;
+                default:
+                echo "Error";
+                break;
+            }
+            $resulset=$c->query($sql);
+        
+            if ($c->affected_rows>0){
+                while($registro=$resulset->fetch_assoc()){
+                    $lista[]=$registro;
                 }
             }
-            catch(Throwable $e){
+            else{
                 $lista=false;
             }
-            finally{
-                return $lista;
+        }
+        catch(Throwable $e){
+            $lista=false;
+        }
+        finally{
+            return $lista;
+        }
+    }
+
+    public static function tomarDatos($id){
+        try{
+            $c=conectar();
+            $sql = "select * from cursos where cur_id=$id;";
+            $resulset = $c->query($sql);
+
+            if($c->affected_rows>0){
+                $registro=$resulset->fetch_assoc();
+            }
+            else{
+                $registro=false;
             }
         }
+        catch(Throwable $e){
+            die("Error: " . $e->getMessage());
+            $registro=false;
+        }
+        finally{
+            return $registro;
+        }
+    }
+
+    public static function cambiarEstado($id, $estadoActual) {
+        try {
+            $c = conectar();
+            $nuevoEstado = ($estadoActual === 'activo') ? 'inactivo' : 'activo';
+            $sql = "UPDATE cursos SET estado = '$nuevoEstado' WHERE cur_id = $id";
+            $c->query($sql);
+            return $c->affected_rows > 0;
+        } catch (Throwable $e) {
+            die("Error: " . $e->getMessage());
+            return false;
+        }
+    }
 }
 ?>
