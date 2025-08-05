@@ -72,6 +72,10 @@ button i {
 </head>
 <body>
     <?php
+    include_once "navbar.html";
+    ?>
+    
+    <?php
     #region Mostrar 
 //Mostrar detalles del curso
 if (isset($_GET['curso'])) {
