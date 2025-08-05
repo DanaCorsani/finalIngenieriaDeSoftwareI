@@ -79,7 +79,7 @@ class Usuario {
             }
 
             // Si no existe, proceder a insertar el nuevo usuario
-            $sql="insert into usuarios (nombre,apellido,email,dni,clave,rol_id) values ('$this->nombre','$this->apellido','$this->email',$this->dni,'$this->clave',$this->rol);";
+            $sql="insert into usuarios (nombre,apellido,email,dni,clave,rol_id,estado) values ('$this->nombre','$this->apellido','$this->email',$this->dni,'$this->clave',$this->rol,'activo');";
 
             $c->query($sql);
 
@@ -204,6 +204,20 @@ class Usuario {
             }
         }
         catch(Thowable $e){
+            return false;
+        }
+    }
+
+
+    public static function cambiarEstado($id, $estadoActual) {
+        try {
+            $c = conectar();
+            $nuevoEstado = ($estadoActual === 'activo') ? 'inactivo' : 'activo';
+            $sql = "UPDATE usuarios SET estado = '$nuevoEstado' WHERE usu_id = $id";
+            $c->query($sql);
+            return $c->affected_rows > 0;
+        } catch (Throwable $e) {
+            die("Error: " . $e->getMessage());
             return false;
         }
     }

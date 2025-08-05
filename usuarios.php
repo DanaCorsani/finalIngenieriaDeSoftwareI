@@ -1,3 +1,40 @@
+<?php
+    require 'clases.php';
+    //Si se confirmo la modificacion del Usuario
+    if (isset($_POST["modificacion"])){
+        $usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['email'], null, null, null);
+        $c = $usuario->modificar($_POST["id"]);
+        
+        if ($c==true){
+            // Preparás el mensaje
+            $msg = addslashes("¡Usuario modificado correctamente!");
+            // En lugar de header, imprimís un script
+            echo <<<HTML
+            <script>
+            alert("$msg");
+            // Cuando el usuario cierra el alert, se ejecuta esto:
+            window.location.href = "usuarios.php?listar";
+            </script>
+            HTML;
+            exit;
+        }
+        else{
+            ?>
+            <script>
+            alert("No se pudo modificar al usuario.");
+            </script>
+            <?php
+        }
+    }
+
+    //Si se confirmo el cambio de estado del Usuario
+        if (isset($_GET["estado"])){
+            $registro = Usuario::tomarDatos($_GET["estado"]);
+            Usuario::cambiarEstado($registro['usu_id'], $registro['estado']);
+            header("Location: usuarios.php?listar");
+            exit;
+        }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,35 +43,217 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="favicon.png" type="image/png">
     <title>Usuarios</title>
+    <style>
+        /* --------------ESTILO DEL FORMULARIO DE CARGA----------------- */
+        /* Contenedor del formulario */
+        #formularioCurso {
+        max-width: 600px;
+        margin: 40px auto;            /* Centrado horizontal + margen superior */
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+        }
+
+        /* Título */
+        #formularioCurso h2 {
+        margin-top: 0;
+        color: #333;
+        text-align: center;
+        }
+
+        /* Etiquetas */
+        #formularioCurso label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        color: #555;
+        }
+
+        /* Campos de texto y select */
+        #formularioCurso input[type="text"],
+        #formularioCurso input[type="email"],
+        #formularioCurso select,
+        #formularioCurso textarea {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        resize: vertical;
+        }
+
+        /* Textarea específico */
+        #formularioCurso textarea {
+        height: 100px;
+        }
+
+        /* Botón de submit */
+        #formularioCurso input[type="submit"] {
+        display: block;
+        width: 40%;
+        max-width: 200px;
+        margin: 25px auto 0 auto;   /* Centrado horizontal */
+        padding: 10px;
+        background-color: #ffcc00;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        }
+
+        #formularioCurso input[type="submit"]:hover {
+        background-color: #e6b800;
+        }
+
+
+
+        /* -----------------ESTILO DE LAS TABLAS----------------- */
+        /* Tabla de cursos */   
+        table {
+            width: 60%;
+            max-width: 900px;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ffeb99;
+            color: #333;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        td button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+            padding: 4px;
+        }
+
+        td button:hover {
+            color: #333;
+        }
+
+        /* Ajuste para que el botón no empuje el texto */
+        td:first-child {
+            width: 50px;
+            text-align: center;
+        }
+
+
+        /* -----------------ESTILO DE LAS OPCIONES (LISTAR, CARGAR Y BUSCAR)----------------- */
+        .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;  /* Centra todos los bloques */
+        gap: 20px;                 /* Espacio entre cada bloque */
+        margin: 20px auto;         /* Centra la barra dentro de la página */
+        max-width: 800px;          /* Ancho máximo deseado */
+        }
+
+        .top-bar .left,
+        .top-bar .center,
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 8px;                  /* Espacio interno ligero en cada bloque */
+        }
+
+        /* Quitamos el empuje al final */
+        .top-bar .right {
+            margin-left: 0;
+        }
+
+        .top-bar button,
+        .top-bar input[type="submit"] {
+            background-color: #ffcc00;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .top-bar button:hover,
+        .top-bar input[type="submit"]:hover {
+            background-color: #e6b800;
+        }
+
+        .top-bar input[type="text"],
+        .top-bar select {
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin: 0;
+        }
+
+        .top-bar i {
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
     <?php
+    #region HTML/PHP
     include_once "navbar.html";
     ?>
     
-    <a href=?listar><button>Lista de Usuarios</button></a>
-    <a href=?altas><button>Cargar Usuarios</button></a>   
-    <form method="get" action="?buscar">
-        <input type="text" name="buscar" required>
-        <select name="opcion">
-            <option value="nombre">Nombre</option>
-            <option value="apellido">Apellido</option>
-            <option value="email">Email</option>
-            <option value="dni">DNI</option>
-        </select>
-        <input type=submit value=Buscar>
-    </form>
+    <br>
+    <div class="top-bar">
+        <div class="left">
+            <a href="?listar"><button>Lista de Usuarios</button></a>
+        </div>
+        <div class="center">
+            <a href="?altas"><button>Cargar Usuario</button></a>
+        </div>
+        <div class="right">
+            <form method="get" action="?buscar">
+                <input type="text" name="buscar" placeholder="Buscar..." required>
+                <select name="opcion">
+                    <option value="nombre">Nombre</option>
+                    <<option value="apellido">Apellido</option>
+                <option value="email">Email</option>
+                <option value="dni">DNI</option>
+                </select>
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div><br>
 
 
 
 
 
     <?php
-    require 'clases.php';
+
     //-----------------------------LISTAR Y BUSCAR USUARIOS--------------------------------
     #region Listar/Buscar
     if (isset($_GET["listar"]) || isset($_GET["buscar"])){
-
+        echo "<h2 style='text-align:center;'>Lista de Usuarios</h2>";
         if (isset($_GET["listar"])){
             $lista=Usuario::listar();
         } elseif (isset($_GET["buscar"])){
@@ -49,6 +268,7 @@
                         <th>Apellido</th>
                         <th>Email</th>
                         <th>DNI</th>
+                        <th>Estado</th>
                         <th></th>
                     </tr>
                     <form>
@@ -60,15 +280,17 @@
                             <td><?= $usuario["apellido"] ?></td>
                             <td><?= $usuario["email"] ?></td>
                             <td><?= $usuario["dni"] ?></td>
+                            <td><?= $usuario["estado"] ?></td>
                             <td>
                                 <button title="Modificar" type="submit" name="modificar" value="<?= $usuario["usu_id"] ?>"><i class="fas fa-edit"></i></button>
-                                <button title="Eliminar" type="submit" name="eliminar" value="<?= $usuario["usu_id"] ?>"><i class="fas fa-trash-alt"></i></button>
+                                <button title="Cambiar Estado" type="submit" name="estado" value="<?= $usuario["usu_id"] ?>" onclick="return confirmarCambioEstado('<?php echo $usuario['estado']; ?>')"><i class="fas fa-sync-alt"></i></button>
                             </td>
                         </tr>
                         <?php
                     }
                     ?>   
-                </form></table>
+                </form>
+            </table>
                 <?php
             }
             else{
@@ -82,7 +304,7 @@
         #region Cargar
         if (isset($_GET["altas"])){
             ?>
-            <form method="post" action="?altas">
+            <form id="formularioCurso" method="post" action="?altas">
                 <h2>Cargar Usuario</h2>
                 <input type="hidden" name="cargar">
                 <label for="nombre">Nombre:</label><br>
@@ -126,21 +348,17 @@
                 <br>
                 <!-- Formulario de modificacion de Usuario -->
                 <div class="formularios">
-                <form method="post" action="?">
+                <form id="formularioCurso" method="post" action="?">
                     <h2>Modificacion de Usuario</h2>
                     <input type="hidden" name="modificacion">
                     <input type="hidden" name="id" value="<?= $registro["usu_id"] ?>">
-                    <input type="hidden" name="nombreViejo" value="<?= $registro["nombre"] ?>">
-                    <input type="hidden" name="apellidoViejo" value="<?= $registro["apellido"] ?>">
-                    <input type="hidden" name="emailViejo" value="<?= $registro["email"] ?>">
-                    <input type="hidden" name="" value="<?= $registro["email"] ?>">
                     <label for="nombre">Nombre:</label><br>
                     <input type="text" name="nombre" id="nombre" value="<?= $registro["nombre"] ?>" maxlength="30" required> <br><br>
                     <label for="apellido">Apellido:</label><br>
                     <input type="text" name="apellido" id="apellido" value="<?= $registro["apellido"] ?>" maxlength="30" required> <br><br>
                     <label for="email">Email:</label><br>
                     <input type="email" name="email" id="email" value="<?= $registro["email"] ?>" maxlength="30" required> <br><br>
-                    <input type="submit" value="Aceptar">
+                    <input type="submit" name="modificacion" value="Aceptar" onclick="return confirm('¿Está seguro?');">
                 </form>
                 </div>
                 <?php
@@ -149,42 +367,24 @@
                 echo "<h2>Ha ocurrido un error</h2>";
             }
         }
-        //Formulario para la confirmacion de modificacion de Usuario
-        if (isset($_POST["modificacion"])){
-            echo "<h2>Esta a punto de modificar al usuario<br>";
-            echo "Nombre: ".$_POST["nombreViejo"].", Apellido: ".$_POST["apellidoViejo"].", Email: ".$_POST["emailViejo"]."<br><br>";
-            echo "Por Nombre: ".$_POST["nombre"].", Apellido: ".$_POST["apellido"].", Usuario: ".$_POST["email"]."<br>";
-            echo "<br>¿Esta seguro?";
-            ?>
-            <form method=post>
-                <input type="hidden" name="id" value="<?= $_POST["id"] ?>">
-                <input type="hidden" name="nombre" value="<?= $_POST["nombre"] ?>">
-                <input type="hidden" name="apellido" value="<?= $_POST["apellido"] ?>">
-                <input type="hidden" name="email" value="<?= $_POST["email"] ?>">
-                <input type="submit" name="confirmarModificacion" value="Aceptar">
-                <input type="submit" name="cancelarModificacion" value="Cancelar">
-            </form>
-            <?php
-        }
-        //Si se confirmo la modificacion del Usuario
-        if (isset($_POST["confirmarModificacion"])){
-            $usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['email'], null, null, null);
-            $c = $usuario->modificar($_POST["id"]);
-            
-            if ($c==true){
-                echo "<h2>El Usuario ha sido modificado con exito</h2>";
+
+        
+
+
+
+        #region Estado
+        //-----------------------------CAMBIAR ESTADO USUARIOS--------------------------------
+        ?>
+        <script>
+            function confirmarCambioEstado(estado) {
+                if (estado === 'activo') {
+                    return confirm("¿Estás seguro de que querés cambiar el estado a INACTIVO?");
+                } else {
+                    return confirm("¿Estás seguro de que querés cambiar el estado a ACTIVO?");
+                }
             }
-            else{
-                echo "<h2>Ese mail ya se encuentra registrado</h2>";
-            }
-        }
-
-        //Si se cancelo la modificacion del Usuario
-        if (isset($_POST["cancelarModificacion"])){
-            echo "<br><br><h2>No se modifico el Usuario</h2>";
-        }
-
-
+        </script>
+        <?php
 
 
 

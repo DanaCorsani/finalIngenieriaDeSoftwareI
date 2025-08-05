@@ -7,190 +7,176 @@
     <link rel="icon" href="favicon.png" type="image/png">
     <title>Cursos</title>
     <style>
-/* Contenedor del formulario */
-#formularioCurso {
-  max-width: 600px;
-  margin: 40px auto;            /* Centrado horizontal + margen superior */
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  font-family: Arial, sans-serif;
-}
+        /* --------------ESTILO DEL FORMULARIO DE CARGA----------------- */
+        /* Contenedor del formulario */
+        #formularioCurso {
+        max-width: 600px;
+        margin: 40px auto;            /* Centrado horizontal + margen superior */
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+        }
 
-/* Título */
-#formularioCurso h2 {
-  margin-top: 0;
-  color: #333;
-  text-align: center;
-}
+        /* Título */
+        #formularioCurso h2 {
+        margin-top: 0;
+        color: #333;
+        text-align: center;
+        }
 
-/* Etiquetas */
-#formularioCurso label {
-  display: block;
-  margin-top: 15px;
-  font-weight: bold;
-  color: #555;
-}
+        /* Etiquetas */
+        #formularioCurso label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        color: #555;
+        }
 
-/* Campos de texto y select */
-#formularioCurso input[type="text"],
-#formularioCurso select,
-#formularioCurso textarea {
-  width: 100%;
-  padding: 8px 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 14px;
-  resize: vertical;
-}
+        /* Campos de texto y select */
+        #formularioCurso input[type="text"],
+        #formularioCurso select,
+        #formularioCurso textarea {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        resize: vertical;
+        }
 
-/* Textarea específico */
-#formularioCurso textarea {
-  height: 100px;
-}
+        /* Textarea específico */
+        #formularioCurso textarea {
+        height: 100px;
+        }
 
-/* Botón de submit */
-#formularioCurso input[type="submit"] {
-  display: block;
-  width: 40%;
-  max-width: 200px;
-  margin: 25px auto 0 auto;   /* Centrado horizontal */
-  padding: 10px;
-  background-color: #ffcc00;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+        /* Botón de submit */
+        #formularioCurso input[type="submit"] {
+        display: block;
+        width: 40%;
+        max-width: 200px;
+        margin: 25px auto 0 auto;   /* Centrado horizontal */
+        padding: 10px;
+        background-color: #ffcc00;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        }
 
-#formularioCurso input[type="submit"]:hover {
-  background-color: #e6b800;
-}
-
-
-
+        #formularioCurso input[type="submit"]:hover {
+        background-color: #e6b800;
+        }
 
 
 
+        /* -----------------ESTILO DE LAS TABLAS----------------- */
+        /* Tabla de cursos */   
+        table {
+            width: 45%;
+            max-width: 900px;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ffeb99;
+            color: #333;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        td button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+            padding: 4px;
+        }
+
+        td button:hover {
+            color: #333;
+        }
+
+        /* Ajuste para que el botón no empuje el texto */
+        td:first-child {
+            width: 50px;
+            text-align: center;
+        }
 
 
+        /* -----------------ESTILO DE LAS OPCIONES (LISTAR, CARGAR Y BUSCAR)----------------- */
+        .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;  /* Centra todos los bloques */
+        gap: 20px;                 /* Espacio entre cada bloque */
+        margin: 20px auto;         /* Centra la barra dentro de la página */
+        max-width: 800px;          /* Ancho máximo deseado */
+        }
 
+        .top-bar .left,
+        .top-bar .center,
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 8px;                  /* Espacio interno ligero en cada bloque */
+        }
 
+        /* Quitamos el empuje al final */
+        .top-bar .right {
+            margin-left: 0;
+        }
 
-    /* Tabla de cursos */
-    
-table {
-    width: 45%;
-    max-width: 900px;
-    margin: 30px auto;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+        .top-bar button,
+        .top-bar input[type="submit"] {
+            background-color: #ffcc00;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0;
+        }
 
-th, td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #e0e0e0;
-    text-align: left;
-}
+        .top-bar button:hover,
+        .top-bar input[type="submit"]:hover {
+            background-color: #e6b800;
+        }
 
-th {
-    background-color: #ffeb99;
-    color: #333;
-    font-weight: 600;
-}
+        .top-bar input[type="text"],
+        .top-bar select {
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin: 0;
+        }
 
-tbody tr:nth-child(even) {
-    background-color: #fafafa;
-}
-
-tbody tr:hover {
-    background-color: #f0f0f0;
-}
-
-td button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: #666;
-    padding: 4px;
-}
-
-td button:hover {
-    color: #333;
-}
-
-/* Ajuste para que el botón no empuje el texto */
-td:first-child {
-    width: 50px;
-    text-align: center;
-}
-
-
-
-
-
-
-
-
-
-    .top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;  /* Centra todos los bloques */
-    gap: 20px;                 /* Espacio entre cada bloque */
-    margin: 20px auto;         /* Centra la barra dentro de la página */
-    max-width: 800px;          /* Ancho máximo deseado */
-}
-
-.top-bar .left,
-.top-bar .center,
-.top-bar .right {
-    display: flex;
-    align-items: center;
-    gap: 8px;                  /* Espacio interno ligero en cada bloque */
-}
-
-/* Quitamos el empuje al final */
-.top-bar .right {
-    margin-left: 0;
-}
-
-.top-bar button,
-.top-bar input[type="submit"] {
-    background-color: #ffcc00;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin: 0;
-}
-
-.top-bar button:hover,
-.top-bar input[type="submit"]:hover {
-    background-color: #e6b800;
-}
-
-.top-bar input[type="text"],
-.top-bar select {
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    margin: 0;
-}
-
-.top-bar i {
-    pointer-events: none;
-}
-
-</style>
+        .top-bar i {
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
     <?php
@@ -198,23 +184,23 @@ td:first-child {
     ?>
     
     <div class="top-bar">
-    <div class="left">
-        <a href="?listar"><button>Lista de Cursos</button></a>
+        <div class="left">
+            <a href="?listar"><button>Lista de Cursos</button></a>
+        </div>
+        <div class="center">
+            <a href="?altas"><button>Cargar Curso</button></a>
+        </div>
+        <div class="right">
+            <form method="get" action="?buscar">
+                <input type="text" name="buscar" placeholder="Buscar..." required>
+                <select name="opcion">
+                    <option value="nombre">Nombre</option>
+                    <option value="area">Área</option>
+                </select>
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
     </div>
-    <div class="center">
-        <a href="?altas"><button>Cargar Curso</button></a>
-    </div>
-    <div class="right">
-        <form method="get" action="?buscar">
-            <input type="text" name="buscar" placeholder="Buscar..." required>
-            <select name="opcion">
-                <option value="nombre">Nombre</option>
-                <option value="area">Área</option>
-            </select>
-            <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
-    </div>
-</div>
 
 
 

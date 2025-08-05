@@ -75,8 +75,8 @@
             <img src="mostaza.jpg" alt="Imagen de la Academia">
         </div>
         <div class="botones">
-            <a href="cursos.php"><button>Cursos</button></a>
-            <a href="usuarios.php"><button>Usuarios</button></a>
+            <a href="cursos.php?listar"><button>Cursos</button></a>
+            <a href="usuarios.php?listar"><button>Usuarios</button></a>
             <a href="mensaje.php"><button>Enviar un mensaje</button></a>
         </div>
     </div>
