@@ -15,7 +15,11 @@
     .navbar-botones{
         margin-left: 5vw;
     }
-    .navbar button{
+    .navbar-perfil{
+        display: flex;
+        gap: 0.3vw;
+    }
+    .navbar button, .navbar input[type="submit"]{
         border-radius: .5rem;
         padding: .5rem 1rem;
     }
@@ -29,6 +33,15 @@
     </div>
     <div class="navbar-perfil">
         <a href="perfil.php" title="Mi Perfil"><button>Mi Perfil</button></a>
-        <a href="index.php" title="Cerrar Sesión"><button>Cerrar Sesión</button></a>
+        <form action="" method="post">
+            <input type="submit" name="cerrar" value="Cerrar Sesión">
+        </form>
     </div>
 </nav>
+<?php
+if(isset($_POST["cerrar"])){
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+}
+?>

@@ -219,7 +219,7 @@
 <body>
     <?php
     #region HTML/PHP
-    include_once "navbar.html";
+    include_once "navbar.php";
     ?>
     
     <br>
