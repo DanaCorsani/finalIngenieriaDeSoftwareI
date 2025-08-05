@@ -65,6 +65,10 @@
     </style>
 </head>
 <body>
+    <?php
+    include_once "navbar.html";
+    ?>
+    
     <h1>Bienvenido a la Academia Mostaza</h1>
     <div class="container">
         <div class="imagen">
