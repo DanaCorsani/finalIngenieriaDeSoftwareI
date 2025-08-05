@@ -193,6 +193,10 @@ td:first-child {
 </style>
 </head>
 <body>
+    <?php
+    include_once "navbar.html";
+    ?>
+    
     <div class="top-bar">
     <div class="left">
         <a href="?listar"><button>Lista de Cursos</button></a>
