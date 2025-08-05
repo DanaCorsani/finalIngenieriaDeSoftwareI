@@ -7,6 +7,10 @@
     <title>Mensaje</title>
 </head>
 <body>
+    <?php
+    include_once "navbar.html";
+    ?>
+    
     <form action="enviar.php" method="post">
   <input type="text" name="nombre" placeholder="Tu nombre" required>
   <input type="email" name="email" placeholder="Tu correo" required>
