@@ -15,54 +15,109 @@ $detalles=Curso::tomarDatos($_SESSION['curso']);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="favicon.png" type="image/png">
     <title><?= $detalles['nombre'] ?></title>
+    <style>
+    .detalle-container {
+  display: flex;
+  justify-content: center;    /* Centra ambos bloques horizontalmente */
+  align-items: flex-start;    /* Alinea arriba para que el video y la info partan del mismo tope */
+  gap: 40px;                  /* Espacio entre video e info */
+  flex-wrap: wrap;            /* En pantallas chicas pasa abajo */
+  margin-top: 40px;
+}
+
+.video-container iframe {
+  width: 100%;
+  max-width: 560px;
+  height: 315px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.info-container {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.info-container p {
+  margin: 0;
+}
+
+.documento-link img {
+  transition: transform 0.2s ease;
+}
+
+.documento-link img:hover {
+  transform: scale(1.1);
+}
+
+form {
+  margin-top: 10px;
+}
+
+button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+button i {
+  margin-right: 5px;
+}
+</style>
+  
 </head>
 <body>
     <?php
-    #region Mostrar
-    //Mostrar detalles del curso
-    if (isset($_GET['curso'])) {
-        echo "Nombre: ".$detalles['nombre'] . "<br>";
-        echo "Area: ".$detalles['area'] . "<br>";
-        echo "Descripción".$detalles['cur_desc'] . "<br>";
+    #region Mostrar 
+//Mostrar detalles del curso
+if (isset($_GET['curso'])) {
+    echo '<div class="detalle-container">';
 
-
-        // --------------------Video de YouTube---------------------
-        $url = $detalles['video'];
-        // Función para extraer el ID del video de YouTube
-        function extraerIDYoutube($url) {
-            // Si es formato youtube.com/watch?v=...
-            if (strpos($url, "youtube.com") !== false) {
-                parse_str(parse_url($url, PHP_URL_QUERY), $params);
-                return $params['v'] ?? null;
-            }
-            // Si es formato youtu.be/...
-            if (strpos($url, "youtu.be/") !== false) {
-                return basename(parse_url($url, PHP_URL_PATH));
-            }
-            return null;
+    // --------------------Video de YouTube---------------------
+    $url = $detalles['video'];
+    function extraerIDYoutube($url) {
+        if (strpos($url, "youtube.com") !== false) {
+            parse_str(parse_url($url, PHP_URL_QUERY), $params);
+            return $params['v'] ?? null;
         }
-        $id = extraerIDYoutube($url);
-        ?>
-        <!-- Mostrar el video -->
+        if (strpos($url, "youtu.be/") !== false) {
+            return basename(parse_url($url, PHP_URL_PATH));
+        }
+        return null;
+    }
+    $id = extraerIDYoutube($url);
+    ?>
+
+    <!-- Video a la izquierda -->
+    <div class="video-container">
         <?php if ($id): ?>
-        <iframe width="560" height="315"
+            <iframe 
                 src="https://www.youtube.com/embed/<?php echo htmlspecialchars($id); ?>"
                 frameborder="0" allowfullscreen>
-        </iframe>
+            </iframe>
         <?php else: ?>
-        <p>URL no válida de YouTube</p>
+            <p>URL no válida de YouTube</p>
         <?php endif; ?>
+    </div>
 
-  
-        <!-- --------------------------Documento de Google------------------------------ -->
-        <a href="<?php echo htmlspecialchars($detalles['pdf']); ?>"
-        target="_blank"
-        title="Ver documento"
-        style="display: inline-block; text-decoration: none;">
-        <img src="https://ssl.gstatic.com/docs/doclist/images/icon_11_document_list.png"
-            alt="Google Doc" width="48" height="48">
+    <!-- Contenido a la derecha -->
+    <div class="info-container">
+        <p><strong>Nombre:</strong> <?php echo $detalles['nombre']; ?></p>
+        <p><strong>Área:</strong> <?php echo $detalles['area']; ?></p>
+        <p><strong>Descripción:</strong> <?php echo $detalles['cur_desc']; ?></p>
+
+        <!-- Documento de Google -->
+        <a class="documento-link"
+           href="<?php echo htmlspecialchars($detalles['pdf']); ?>"
+           target="_blank"
+           title="Ver documento">
+            <img src="https://ssl.gstatic.com/docs/doclist/images/icon_11_document_list.png"
+                 alt="Google Doc" width="48" height="48">
         </a>
-
 
         <!-- Botón para cambiar estado -->
         <?php
@@ -71,12 +126,11 @@ $detalles=Curso::tomarDatos($_SESSION['curso']);
         $texto = ucfirst($estado);
         $clase = $estado === 'activo' ? 'text-success' : 'text-danger';
         ?>
-
         <form method="POST" action="?" onsubmit="return confirmarCambioEstado('<?php echo $estado; ?>')">
             <input type="hidden" name="cambiarEstado">
             <input type="hidden" name="idCurso" value="<?php echo $_SESSION['curso']; ?>">
             <input type="hidden" name="estadoActual" value="<?php echo $estado; ?>">
-            
+
             <button type="submit" class="btn btn-outline-secondary">
                 <i class="fas <?php echo $icono; ?>"></i>
                 <span class="<?php echo $clase; ?>">
@@ -85,13 +139,19 @@ $detalles=Curso::tomarDatos($_SESSION['curso']);
             </button>
         </form>
 
-    <!-- -------------------------Boton Modificar-------------------------------- -->
-    <form action="?modificar" method="post">
-        <button title="Modificar" type="submit" name="modificar" value="<?= $_GET['curso'] ?>"><i class="fas fa-edit"></i></button>
-    </form>
-    <br><br><br>
+        <!-- Botón Modificar -->
+        <form action="?modificar" method="post">
+            <button title="Modificar" type="submit" name="modificar" value="<?= $_GET['curso'] ?>">
+                <i class="fas fa-edit"></i> Modificar
+            </button>
+        </form>
+    </div>
+
     <?php
-    }
+    echo '</div>'; // cierre de .detalle-container
+}
+#endregion
+
     ?>
 
 
