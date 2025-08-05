@@ -8,6 +8,10 @@
     <title>Usuarios</title>
 </head>
 <body>
+    <?php
+    include_once "navbar.html";
+    ?>
+    
     <a href=?listar><button>Lista de Usuarios</button></a>
     <a href=?altas><button>Cargar Usuarios</button></a>   
     <form method="get" action="?buscar">
