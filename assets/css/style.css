@@ -25,6 +25,14 @@ body{
     grid-template-rows: 100px auto 40px;
     /* font-family: ; */
     background-color: var(--primary-color);
+    background-image: url("https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; agregue esto y no se porque hay una barra lateral ahora */
+    background-size: 150% auto;
+    background-position: left;
+    overflow: auto; /*para que cuando agregamos cosa podamos scrolear hacia abajo y verlas*/
+    scrollbar-color: var(--secondary-color);
+
 }
 
 .ourBurgers{
@@ -49,10 +57,10 @@ body{
 }
 
 header{
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    border: 5px solid #450101;
-    border-radius: 10px;
+    /* background-color: var(--primary-color); */
+    color: white;
+    /* border: 5px solid #450101;
+    border-radius: 10px; */
     grid-area: header;
     display: flex;
     justify-content: center;
@@ -60,31 +68,33 @@ header{
 }
 
 .main{
-    grid-area: main;
-    background-image: url("https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    /* grid-area: main;
+    /* background-image: url("https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-repeat: no-repeat;
-    /* background-attachment: fixed; agregue esto y no se porque hay una barra lateral ahora */
+    ///* background-attachment: fixed; agregue esto y no se porque hay una barra lateral ahora 
     background-size: cover;
     background-position: center;
     overflow: auto; /*para que cuando agregamos cosa podamos scrolear hacia abajo y verlas*/
-    scrollbar-color: var(--secondary-color);
+    scrollbar-color: var(--secondary-color); */ 
     border: 5px solid var(--accent-color);
     border-radius: 20px;
 }
 
 .aside{
     grid-area: aside;
-    background-color:#2c1a0d;
+    background-color:white;
     background-image: linear-gradient(
         to bottom,
         rgba(117, 92, 27, 0.3), /* var(--tertiary-color) con transparencia */
         rgba(67, 40, 7, 0.7)
     );
-    border: 5px solid var(--secondary-color);
+    border: 5px solid ;
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: translateX(150px); /* Desplaza 50px a la derecha */
+
 
 }
 
@@ -119,6 +129,7 @@ footer{
     /* align-items: center; no esta funcionando?  */
     /* padding: 90px; */
     animation: burgerPress 5s;
+    
 }
 
 .flex-container:active{
