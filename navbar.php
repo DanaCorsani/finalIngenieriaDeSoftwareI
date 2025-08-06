@@ -40,7 +40,7 @@ if(isset($_POST["cerrar"])){
 <nav class="navbar">
     <a href="inicio.php" title="Capacitaciones Mostaza"><button>Home</button></a>
     <div class="navbar-botones">
-        <a href="cursos.php" title="Cursos"><button>Cursos</button></a>
+        <a href="cursos.php?listar" title="Cursos"><button>Cursos</button></a>
         <?php
             if($_SESSION['rol_id']==1){
                 ?>
