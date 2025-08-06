@@ -72,7 +72,7 @@ session_start();
     
     <?php
     if (isset($_SESSION['msj'])) {
-        echo "<p>" . $_SESSION['msj'] . "</p>";
+        echo "<script>alert('Usuario o Contraseña Incorrectos');</script>";
         unset($_SESSION['msj']);
     }
     ?>

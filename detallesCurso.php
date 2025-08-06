@@ -264,6 +264,49 @@ if (isset($_POST['cambiarEstado'])){
                     <i class="fas fa-edit"></i> Modificar
                 </button>
             </form>
+            
+
+            <?php
+            $resultado = Curso::tieneExamen($_GET['curso']);
+            if ($resultado==false){
+                ?>
+                <!-- Botón Crear Examen -->
+                <form action="crearExamen.php" method="post">
+                    <button title="Crear Examen" type="submit" name="id" value="<?= $_GET['curso'] ?>">
+                        <i class="fas fa-file-lines"></i> Crear Examen
+                    </button>
+                    </form>
+                <?php
+            } else{
+                require_once "clases.php";
+                $r = Curso::usuarioRealizoExamen($_SESSION['usu_id'], $_GET['curso']);
+                if ($r == false) {
+                    ?>
+                    <!-- Botón Hacer Examen -->
+                    <form action="examen.php" method="post">
+                    <button title="Realizar Examen" type="submit" name="id" value="<?= $_GET['curso'] ?>">
+                        <i class="fas fa-file-lines"></i> Realizar Examen
+                    </button>
+                    </form>
+                <?php
+                } else {
+                    ?>
+                    <!-- Botón Ver Examen -->
+                    <form action="verExamen.php" method="post">
+                        <button title="Ver Examen" type="submit" name="id" value="<?= $_GET['curso'] ?>">
+                            <i class="fas fa-file-lines"></i> Ver Examen
+                        </button>
+                    </form>
+                    <?php
+                }
+                ?>
+                <?php
+            }
+            ?>
+
+            
+
+            
         </div>
 
         <?php

@@ -377,5 +377,237 @@ class Curso {
             return false;
         }
     }
+
+
+
+    public static function tieneExamen($cur_id) {
+    $mysqli = conectar();
+
+    if ($mysqli->connect_error) {
+        die("Error de conexión: " . $mysqli->connect_error);
+    }
+
+    $sql = "SELECT COUNT(*) AS total FROM preguntas WHERE cur_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $cur_id);
+    $stmt->execute();
+    $stmt->bind_result($total);
+    $stmt->fetch();
+
+    $stmt->close();
+    $mysqli->close();
+
+    return $total > 0; // true si hay preguntas, false si no
+    }
+
+
+
+
+    public static function agregarExamen($cur_id, $post) {
+    $con = conectar();
+
+    for ($i = 1; $i <= 3; $i++) {
+        // 1. Insertar la pregunta
+        $texto_preg = $post["pregunta_$i"];
+        $stmt = $con->prepare("INSERT INTO preguntas (cur_id, texto) VALUES (?, ?)");
+        $stmt->execute([$cur_id, $texto_preg]);
+
+        // 2. Obtener el ID de la pregunta recién insertada
+        $preg_id = $con->insert_id;
+
+        // 3. Insertar sus 4 opciones
+        $correcta = $post["correcta_$i"]; // Ej: "2" significa opción 2 es la correcta
+        for ($j = 1; $j <= 4; $j++) {
+            $texto_opcion = $post["opcion_{$i}_{$j}"];
+            $es_correcta = ($j == $correcta) ? 1 : 0;
+
+            $stmtOpt = $con->prepare("INSERT INTO opciones (preg_id, texto, es_correcta) VALUES (?, ?, ?)");
+            $stmtOpt->execute([$preg_id, $texto_opcion, $es_correcta]);
+        }
+    }
+
+    return true;
+    }
+
+
+
+
+    public static function obtenerPreguntas($cur_id) {
+    $mysqli = conectar();
+
+    $preguntas = [];
+
+    $sqlPreguntas = "SELECT preg_id, texto FROM preguntas WHERE cur_id = ?";
+    $stmtPreg = $mysqli->prepare($sqlPreguntas);
+    $stmtPreg->bind_param("i", $cur_id);
+    $stmtPreg->execute();
+    $resultPreg = $stmtPreg->get_result();
+
+    while ($rowPreg = $resultPreg->fetch_assoc()) {
+        $pregunta = [
+            'id' => $rowPreg['preg_id'],
+            'enunciado' => $rowPreg['texto'],
+            'opciones' => []
+        ];
+
+        $sqlOpciones = "SELECT opt_id, texto FROM opciones WHERE preg_id = ?";
+        $stmtOpt = $mysqli->prepare($sqlOpciones);
+        $stmtOpt->bind_param("i", $rowPreg['preg_id']);
+        $stmtOpt->execute();
+        $resultOpt = $stmtOpt->get_result();
+
+        $letra = 'a';
+        while ($rowOpt = $resultOpt->fetch_assoc()) {
+            $pregunta['opciones'][$letra] = $rowOpt['texto'];
+            $letra++;
+        }
+
+        $preguntas[] = $pregunta;
+    }
+
+    $stmtPreg->close();
+    $mysqli->close();
+
+    return $preguntas;
+    }
+
+
+
+
+
+
+    public static function corregirExamen($usu_id, $cur_id, $respuestasUsuario) {
+    $mysqli = conectar();
+    if ($mysqli->connect_error) {
+        die("Error de conexión: " . $mysqli->connect_error);
+    }
+
+    $totalPreguntas = 0;
+    $respuestasCorrectas = 0;
+
+    foreach ($respuestasUsuario as $preg_id => $letraSeleccionada) {
+        // Obtener la opción elegida (según orden alfabético)
+        $sql = "SELECT opt_id, es_correcta FROM (
+                    SELECT opt_id, es_correcta, 
+                           ROW_NUMBER() OVER (PARTITION BY preg_id ORDER BY opt_id) AS rn
+                    FROM opciones 
+                    WHERE preg_id = ?
+                ) AS ordenadas
+                WHERE rn = ?";
+
+        $stmt = $mysqli->prepare($sql);
+        $pos = ord(strtolower($letraSeleccionada)) - ord('a') + 1;
+        $stmt->bind_param("ii", $preg_id, $pos);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        if ($fila = $resultado->fetch_assoc()) {
+            $opt_id = $fila['opt_id'];
+            $es_correcta = $fila['es_correcta'];
+
+            // Insertar la respuesta
+            $stmtInsert = $mysqli->prepare("INSERT INTO respuestas (usu_id, preg_id, opt_id) VALUES (?, ?, ?)");
+            $stmtInsert->bind_param("iii", $usu_id, $preg_id, $opt_id);
+            $stmtInsert->execute();
+            $stmtInsert->close();
+
+            // Contar si es correcta
+            if ($es_correcta) {
+                $respuestasCorrectas++;
+            }
+
+            $totalPreguntas++;
+        }
+
+        $stmt->close();
+    }
+
+    // Calcular nota sobre 10
+    $nota = ($totalPreguntas > 0) ? round(($respuestasCorrectas / $totalPreguntas) * 10, 2) : 0;
+
+    // Actualizar estado y nota en usuarios_cursos
+    $stmtCurso = $mysqli->prepare("UPDATE usuarios_cursos SET estado = 'completo', nota = ? WHERE usu_id = ? AND cur_id = ?");
+    $stmtCurso->bind_param("dii", $nota, $usu_id, $cur_id);
+    $stmtCurso->execute();
+    $stmtCurso->close();
+
+    $mysqli->close();
+
+    return $nota;
+    }
+
+
+
+
+    public static function usuarioRealizoExamen($usu_id, $cur_id) {
+    $mysqli = conectar();
+    if ($mysqli->connect_error) {
+        die("Error de conexión: " . $mysqli->connect_error);
+    }
+
+    // Ver si existe alguna respuesta del usuario para preguntas de ese curso
+    $sql = "SELECT 1
+            FROM respuestas r
+            INNER JOIN preguntas p ON r.preg_id = p.preg_id
+            WHERE r.usu_id = ? AND p.cur_id = ?
+            LIMIT 1";
+
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ii", $usu_id, $cur_id);
+    $stmt->execute();
+    $stmt->store_result();
+
+    $yaRealizo = $stmt->num_rows > 0;
+
+    $stmt->close();
+    $mysqli->close();
+
+    return $yaRealizo;
+    }
+
+
+
+
+    public static function obtenerRespuestasUsuario($usu_id, $cur_id) {
+    $mysqli = conectar();
+    if ($mysqli->connect_error) {
+        die("Error de conexión: " . $mysqli->connect_error);
+    }
+
+    $sql = "
+        SELECT 
+            p.texto AS pregunta,
+            ou.texto AS opcion_usuario,
+            oc.texto AS opcion_correcta,
+            CASE WHEN ou.opt_id = oc.opt_id THEN 1 ELSE 0 END AS es_correcta
+        FROM respuestas r
+        INNER JOIN preguntas p ON r.preg_id = p.preg_id
+        INNER JOIN opciones ou ON r.opt_id = ou.opt_id
+        INNER JOIN opciones oc ON p.preg_id = oc.preg_id AND oc.es_correcta = 1
+        WHERE r.usu_id = ? AND p.cur_id = ?
+        ORDER BY p.preg_id
+    ";
+
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ii", $usu_id, $cur_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $respuestas = [];
+    while ($fila = $result->fetch_assoc()) {
+        $respuestas[] = [
+            'pregunta' => $fila['pregunta'],
+            'respuesta_usuario' => $fila['opcion_usuario'],
+            'respuesta_correcta' => $fila['opcion_correcta'],
+            'es_correcta' => (bool) $fila['es_correcta']
+        ];
+    }
+
+    $stmt->close();
+    $mysqli->close();
+
+    return $respuestas;
+    }
+
 }
 ?>

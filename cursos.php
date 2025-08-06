@@ -291,10 +291,10 @@ if (isset($_GET["listar"]) || isset($_GET["buscar"])) {
             $resultado=$curso->cargar();
 
             if($resultado==true){
-                echo "<h2>Curso cargado correctamente</h2>";
+                echo "<script>alert('Curso cargado correctamente');</script>";
             }
             else{
-                echo "<h2>El curso ya existe</h2>";
+                echo "<script>alert('No se pudo cargar el curso');</script>";
             }
         }
         }

@@ -314,7 +314,7 @@
                 <label for="email">Email:</label><br>
                 <input type="email" id="email" name="email" maxlength="30" required><br>
                 <label for="dni">DNI:</label><br>
-                <input type="int" id="dni" name="dni" maxlength="8" minleght="8" required><br>
+                <input type="text" id="dni" name="dni" maxlength="8" minleght="8" min="1" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required><br>
                 <label for="clave">Contraseña:</label><br>
                 <input type="text" id="clave" name="clave" minleght="5" maxlength="30" required><br>
                 <label for="rol">Rol:</label><br>
@@ -330,10 +330,10 @@
             $resultado=$usuario->cargar();
 
             if($resultado==true){
-                echo "<h2>Usuario cargado correctamente</h2>";
+                echo "<script>alert('Usuario cargado correctamente');</script>";
             }
             else{
-                echo "<h2>El usuario ya existe</h2>";
+                echo "<script>alert('Ese DNI o Email ya se encuentra cargado');</script>";
             }
         }
         }
