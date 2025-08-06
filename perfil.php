@@ -7,8 +7,8 @@ require_once 'navbar.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desempeño</title>
     <link rel="icon" href="favicon.png" type="image/png">
+    <title>Mi Perfil</title>
     <style>
 .tabla-desempeno {
   width: 50%;

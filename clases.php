@@ -21,7 +21,7 @@ require 'conexion.php';
     public static function iniciarSesion($email, $clave) {
         try {
             $c = conectar();
-            $sql = "SELECT * FROM usuarios WHERE email = ?";
+            $sql = "SELECT * FROM usuarios WHERE email = ? and estado = 'activo'";
             $stmt = $c->prepare($sql);
             $stmt->bind_param("s", $email);
             $stmt->execute();

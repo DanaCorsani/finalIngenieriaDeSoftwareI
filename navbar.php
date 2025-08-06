@@ -1,3 +1,4 @@
+<link rel="icon" href="favicon.png" type="image/png">
 <?php
 if(isset($_POST["cerrar"])){
     session_unset();
