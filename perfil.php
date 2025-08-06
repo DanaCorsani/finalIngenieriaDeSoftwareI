@@ -96,19 +96,21 @@ require_once 'navbar.php';
             text-align: center;
         }
 
-        footer{
-          grid-area: footer;
-          display: flex;
-          justify-content: space-between;
-          color: #450101;
-          font-weight: 900;
-          position: absolute;    /*pongo una posicion fija para el texto del footer */
-          bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
-          left: 0;
-          right: 0;
-          background-color: orangered;
-          padding: 0 1rem;
-        }
+        footer {
+  grid-area: footer;
+  display: flex;
+  justify-content: space-between;
+  color: #450101;
+  font-weight: 900;
+  position: fixed;         /* 👈 Cambio importante */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: orangered;
+  padding: 0 1rem;
+  z-index: 1000;           /* 👈 Asegura que quede por encima de otros elementos si es necesario */
+}
+
   </style>
 </head>
 
@@ -125,7 +127,6 @@ require_once 'navbar.php';
               <th>Apellido</th>
               <th>Email</th>
               <th>DNI</th>
-              <th>Estado</th>
               <th>Rol</th>
             </tr>
           </thead>
@@ -136,7 +137,6 @@ require_once 'navbar.php';
                 <td><?= htmlspecialchars($_SESSION['apellido']) ?></td>
                 <td><?= htmlspecialchars($_SESSION['usuario']) ?></td>
                 <td><?= htmlspecialchars($_SESSION['dni']) ?></td>
-                <td><?= htmlspecialchars($_SESSION['estado']) ?></td>
                 <td><?php
                 if($_SESSION['rol_id']==1){
                   echo "Administrador";
@@ -173,7 +173,7 @@ foreach ($datos as $curso) {
 echo '</tbody></table>';
 
     ?>
-
+    <br><br><br>
     <footer class="footer">
         <h3 id="rights">@2025 ISFTyD24</h3>
         <div id="names">

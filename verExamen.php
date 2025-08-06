@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'navbar.php';
 $usu_id = $_SESSION['usu_id']; // Asegurate de tener el login activo
 $cur_id = $_POST['id'] ?? null; // ID del curso pasado por GET (ej: verRespuestas.php?id=3)
 

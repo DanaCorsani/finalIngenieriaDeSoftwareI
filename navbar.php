@@ -1,4 +1,5 @@
 <link rel="icon" href="favicon.png" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <?php
 if(isset($_POST["cerrar"])){
     session_unset();
@@ -15,7 +16,7 @@ if(isset($_POST["cerrar"])){
         display: flex;
         flex-wrap: nowrap;
         justify-content: space-between;
-        background-color: darkorange;
+        background-color: darkred;
         padding: .5rem 3vw;
         /* margin-bottom: 3vh; */
         /* ^ espacio entre la bara y resto de la pagina */
@@ -38,7 +39,7 @@ if(isset($_POST["cerrar"])){
         }
 </style>
 <nav class="navbar">
-    <a href="inicio.php" title="Capacitaciones Mostaza"><button>Home</button></a>
+    <a href="inicio.php" title="Capacitaciones Mostaza"><button><i class="fas fa-house"></i> Home</button></a>
     <div class="navbar-botones">
         <a href="cursos.php?listar" title="Cursos"><button>Cursos</button></a>
         <?php
@@ -51,8 +52,11 @@ if(isset($_POST["cerrar"])){
         <!-- <a href="mensaje.php" title="Enviar consulta"><button>Consulta</button></a> -->
     </div>
     <div class="navbar-perfil">
-        <a href="perfil.php" title="Mi Perfil"><button>Mi Perfil</button></a><form action="" method="post">
-            <input type="submit" name="cerrar" value="Cerrar Sesión">
+        <a href="perfil.php" title="Mi Perfil"><button><i class="fas fa-user"></i> Mi Perfil</button></a><form action="" method="post">
+            <button type="submit" name="cerrar">
+  <i class="fas fa-right-from-bracket"></i> Cerrar Sesión
+</button>
+
         </form>
     </div>
 </nav>

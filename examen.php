@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include 'navbar.php';
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cur_id'])) {
         $cur_id = $_POST['cur_id'];
         $respuestas = $_POST['respuestas'];

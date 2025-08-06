@@ -230,19 +230,19 @@ if(isset($_POST["cerrar"])){
             pointer-events: none;
         }
 
-        footer{
-    grid-area: footer;
-    display: flex;
-    justify-content: space-between;
-    color: #450101;
-    font-weight: 900;
-    position: fixed;    /*pongo una posicion fija para el texto del footer */
-    bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
-    left: 0;
-    right: 0;
-    background-color: orangered;
-    padding: 0 1rem;
-    font-family: Arial, sans-serif;
+       footer {
+  grid-area: footer;
+  display: flex;
+  justify-content: space-between;
+  color: #450101;
+  font-weight: 900;
+  position: fixed;         /* 👈 Cambio importante */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: orangered;
+  padding: 0 1rem;
+  z-index: 1000;           /* 👈 Asegura que quede por encima de otros elementos si es necesario */
 }
     </style>
 </head>
@@ -457,7 +457,7 @@ if(isset($_POST["cerrar"])){
             echo "<br><br><br><h2>No se ha eliminado al Usuario</h2>";
         }
     ?>
-
+    <br><br><br><br><br><br><br><br><br>
     <footer class="footer">
         <h3 id="rights">@2025 ISFTyD24</h3>
         <div id="names">
