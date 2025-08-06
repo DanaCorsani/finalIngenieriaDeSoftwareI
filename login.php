@@ -6,6 +6,7 @@ if ($resultado) {
     session_start();
     $_SESSION['usuario'] = $resultado['email'];
     $_SESSION['usu_id'] = $resultado['usu_id'];
+    $_SESSION['rol'] = $resultado['rol_id'];
     header("Location: inicio.php");
 } else {
     session_start();

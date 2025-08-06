@@ -486,7 +486,6 @@ class Curso {
     $respuestasCorrectas = 0;
 
     foreach ($respuestasUsuario as $preg_id => $letraSeleccionada) {
-        // Obtener la opción elegida (según orden alfabético)
         $sql = "SELECT opt_id, es_correcta FROM (
                     SELECT opt_id, es_correcta, 
                            ROW_NUMBER() OVER (PARTITION BY preg_id ORDER BY opt_id) AS rn
@@ -505,13 +504,12 @@ class Curso {
             $opt_id = $fila['opt_id'];
             $es_correcta = $fila['es_correcta'];
 
-            // Insertar la respuesta
+            // Insertar respuesta
             $stmtInsert = $mysqli->prepare("INSERT INTO respuestas (usu_id, preg_id, opt_id) VALUES (?, ?, ?)");
             $stmtInsert->bind_param("iii", $usu_id, $preg_id, $opt_id);
             $stmtInsert->execute();
             $stmtInsert->close();
 
-            // Contar si es correcta
             if ($es_correcta) {
                 $respuestasCorrectas++;
             }
@@ -522,19 +520,35 @@ class Curso {
         $stmt->close();
     }
 
-    // Calcular nota sobre 10
     $nota = ($totalPreguntas > 0) ? round(($respuestasCorrectas / $totalPreguntas) * 10, 2) : 0;
 
-    // Actualizar estado y nota en usuarios_cursos
-    $stmtCurso = $mysqli->prepare("UPDATE usuarios_cursos SET estado = 'completo', nota = ? WHERE usu_id = ? AND cur_id = ?");
-    $stmtCurso->bind_param("dii", $nota, $usu_id, $cur_id);
-    $stmtCurso->execute();
-    $stmtCurso->close();
+    // Verificar si ya hay registro en usuarios_cursos
+    $stmtCheck = $mysqli->prepare("SELECT COUNT(*) AS cantidad FROM usuarios_cursos WHERE usu_id = ? AND cur_id = ?");
+    $stmtCheck->bind_param("ii", $usu_id, $cur_id);
+    $stmtCheck->execute();
+    $resultadoCheck = $stmtCheck->get_result();
+    $existe = $resultadoCheck->fetch_assoc()['cantidad'] > 0;
+    $stmtCheck->close();
+
+    if ($existe) {
+        // Actualizar si ya existe
+        $stmtUpdate = $mysqli->prepare("UPDATE usuarios_cursos SET estado = 'completo', nota = ? WHERE usu_id = ? AND cur_id = ?");
+        $stmtUpdate->bind_param("dii", $nota, $usu_id, $cur_id);
+        $stmtUpdate->execute();
+        $stmtUpdate->close();
+    } else {
+        // Insertar si no existía
+        $stmtInsertCurso = $mysqli->prepare("INSERT INTO usuarios_cursos (usu_id, cur_id, estado, nota) VALUES (?, ?, 'completo', ?)");
+        $stmtInsertCurso->bind_param("iid", $usu_id, $cur_id, $nota);
+        $stmtInsertCurso->execute();
+        $stmtInsertCurso->close();
+    }
 
     $mysqli->close();
 
     return $nota;
-    }
+}
+
 
 
 
@@ -608,6 +622,60 @@ class Curso {
 
     return $respuestas;
     }
+
+
+
+
+
+
+    public static function obtenerDesempenoUsuario($usu_id) {
+    $conexion = conectar();
+
+    $sql = "SELECT 
+                c.cur_id,
+                c.nombre AS curso,
+                uc.estado,
+                uc.nota
+            FROM cursos c
+            LEFT JOIN usuarios_cursos uc ON c.cur_id = uc.cur_id AND uc.usu_id = ?";
+
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $usu_id);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    $desempeno = [];
+
+    while ($fila = $resultado->fetch_assoc()) {
+        $desempeno[] = [
+            'curso_id' => $fila['cur_id'],
+            'curso'    => $fila['curso'],
+            'estado'   => $fila['estado'] ?? 'no realizado',
+            'nota'     => is_null($fila['nota']) ? '-' : $fila['nota']
+        ];
+    }
+
+    $stmt->close();
+    $conexion->close();
+
+    return $desempeno;
+    }
+
+
+
+
+    public static function usuarioHizoCurso($usu_id, $cur_id) {
+    $conexion = conectar(); // Asume que tenés una función para conectar a la base de datos
+
+    $sql = "SELECT 1 FROM usuarios_cursos WHERE usu_id = ? AND cur_id = ? LIMIT 1";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("ii", $usu_id, $cur_id);
+    $stmt->execute();
+    $stmt->store_result();
+
+    return $stmt->num_rows > 0; // true si hay registro (lo hizo), false si no
+    }
+
 
 }
 ?>

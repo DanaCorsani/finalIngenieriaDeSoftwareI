@@ -19,6 +19,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/png">
   <title>Crear Examen</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 2rem; }

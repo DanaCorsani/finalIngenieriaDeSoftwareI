@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -229,7 +232,6 @@ if (isset($_GET["listar"]) || isset($_GET["buscar"])) {
               <th>Nombre</th>
               <th>Área</th>
               <th>Estado</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -245,8 +247,23 @@ if (isset($_GET["listar"]) || isset($_GET["buscar"])) {
                 </td>
                 <td><?= htmlspecialchars($curso['nombre']) ?></td>
                 <td><?= htmlspecialchars($curso['area']) ?></td>
-                <td><?= htmlspecialchars($curso['estado']) ?></td>
-                <td><!-- espacio para futuras acciones --></td>
+                <?php   
+                if ($_SESSION["rol"] == 1){
+                    ?>
+                    <td><?= htmlspecialchars($curso['estado']) ?></td>    
+                    <?php
+                } else{
+                    $estado = Curso::usuarioHizoCurso($_SESSION["usu_id"], $curso['cur_id']);
+                    if ($estado) {
+                        $estado = "Completado";
+                    } else {
+                        $estado = "Pendiente";
+                    }
+                    ?>
+                    <td><?= htmlspecialchars($estado) ?></td>    
+                    <?php
+                }
+                ?>
               </tr>
             <?php endforeach; ?>
           </tbody>

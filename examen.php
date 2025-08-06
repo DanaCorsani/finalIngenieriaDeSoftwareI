@@ -17,6 +17,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/png">
   <title>Resolver Examen</title>
   <style>
     body {

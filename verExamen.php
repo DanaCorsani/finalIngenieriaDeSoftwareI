@@ -56,6 +56,7 @@ $respuestas = obtenerRespuestasUsuario($usu_id, $cur_id);
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/png">
   <title>Respuestas del Examen</title>
   <style>
     body {

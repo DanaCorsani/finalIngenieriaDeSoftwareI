@@ -67,6 +67,7 @@
 <body>
     <?php
     include_once "navbar.php";
+    session_start();
     ?>
     
     <h1>Bienvenido a la Academia Mostaza</h1>
@@ -76,7 +77,14 @@
         </div>
         <div class="botones">
             <a href="cursos.php?listar"><button>Cursos</button></a>
-            <a href="usuarios.php?listar"><button>Usuarios</button></a>
+            <?php
+                if ($_SESSION["rol"] == 1) {
+                    ?>
+                    <a href="usuarios.php?listar"><button>Usuarios</button></a>
+                    <?php
+                }
+            ?>
+
             <a href="mensaje.php"><button>Enviar un mensaje</button></a>
         </div>
     </div>

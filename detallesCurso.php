@@ -245,7 +245,11 @@ if (isset($_POST['cambiarEstado'])){
             $texto = ucfirst($estado);
             $clase = $estado === 'activo' ? 'text-success' : 'text-danger';
             ?>
-            <form method="POST" action="?" onsubmit="return confirmarCambioEstado('<?php echo $estado; ?>')">
+
+            <?php
+            if ($_SESSION['rol'] == 1) {
+               ?>
+                <form method="POST" action="?" onsubmit="return confirmarCambioEstado('<?php echo $estado; ?>')">
                 <input type="hidden" name="cambiarEstado">
                 <input type="hidden" name="idCurso" value="<?php echo $_SESSION['curso']; ?>">
                 <input type="hidden" name="estadoActual" value="<?php echo $estado; ?>">
@@ -264,6 +268,9 @@ if (isset($_POST['cambiarEstado'])){
                     <i class="fas fa-edit"></i> Modificar
                 </button>
             </form>
+               <?php
+            }
+            ?>
             
 
             <?php

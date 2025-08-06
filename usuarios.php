@@ -34,6 +34,11 @@
             header("Location: usuarios.php?listar");
             exit;
         }
+
+    if (isset($_GET["desempenio"])){
+        header("Location: desempenio.php?usu_id=".$_GET["desempenio"]);
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -282,6 +287,7 @@
                             <td><?= $usuario["dni"] ?></td>
                             <td><?= $usuario["estado"] ?></td>
                             <td>
+                                <button title="Ver Desempeño" type="submit" name="desempenio" value="<?= $usuario["usu_id"] ?>"><i class="fas fa-eye"></i></button>
                                 <button title="Modificar" type="submit" name="modificar" value="<?= $usuario["usu_id"] ?>"><i class="fas fa-edit"></i></button>
                                 <button title="Cambiar Estado" type="submit" name="estado" value="<?= $usuario["usu_id"] ?>" onclick="return confirmarCambioEstado('<?php echo $usuario['estado']; ?>')"><i class="fas fa-sync-alt"></i></button>
                             </td>
