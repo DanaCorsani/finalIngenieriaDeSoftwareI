@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "navbar.php";
 require 'clases.php';
 if (isset($_GET['curso'])) {
     $_SESSION['curso'] = $_GET['curso'];
@@ -226,9 +227,6 @@ if(isset($_POST["cerrar"])){
     </style>
 </head>
 <body>
-    <?php
-    include_once "navbar.php";
-    ?>
     
     <?php
     #region Mostrar 
@@ -280,9 +278,6 @@ if(isset($_POST["cerrar"])){
             </a>
 
             <!-- Botón para cambiar estado -->
-             <?php
-            if($_SESSION['rol_id']==1){
-                ?>
             <?php
             $estado = $detalles['estado'];
             $icono = $estado === 'activo' ? 'fa-eye' : 'fa-eye-slash';
@@ -291,7 +286,7 @@ if(isset($_POST["cerrar"])){
             ?>
 
             <?php
-            if ($_SESSION['rol'] == 1) {
+            if ($_SESSION['rol_id'] == 1) {
                ?>
                 <form method="POST" action="?" onsubmit="return confirmarCambioEstado('<?php echo $estado; ?>')">
                 <input type="hidden" name="cambiarEstado">

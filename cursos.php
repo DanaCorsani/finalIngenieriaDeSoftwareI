@@ -271,7 +271,7 @@ if (isset($_GET["listar"]) || isset($_GET["buscar"])) {
                 <td><?= htmlspecialchars($curso['nombre']) ?></td>
                 <td><?= htmlspecialchars($curso['area']) ?></td>
                 <?php   
-                if ($_SESSION["rol"] == 1){
+                if ($_SESSION["rol_id"] == 1){
                     ?>
                     <td><?= htmlspecialchars($curso['estado']) ?></td>    
                     <?php

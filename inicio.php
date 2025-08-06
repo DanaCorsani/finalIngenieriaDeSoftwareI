@@ -85,7 +85,6 @@ session_start();
 <body>
     <?php
     include_once "navbar.php";
-    session_start();
     ?>
     
     <h1>Bienvenido a la Academia Mostaza</h1>
@@ -96,7 +95,7 @@ session_start();
         <div class="botones">
             <a href="cursos.php?listar"><button>Cursos</button></a>
             <?php
-                if ($_SESSION["rol"] == 1) {
+                if ($_SESSION["rol_id"] == 1) {
                     ?>
                     <a href="usuarios.php?listar"><button>Usuarios</button></a>
                     <?php
