@@ -133,7 +133,7 @@ include_once "navbar.php";
         /* -----------------ESTILO DE LAS OPCIONES (LISTAR, CARGAR Y BUSCAR)----------------- */
         .top-bar {
         display: flex;
-        align-items: center;
+        align-items: start;
         justify-content: center;  /* Centra todos los bloques */
         gap: 20px;                 /* Espacio entre cada bloque */
         margin: 20px auto;         /* Centra la barra dentro de la página */
@@ -185,14 +185,14 @@ include_once "navbar.php";
             grid-area: footer;
             display: flex;
             justify-content: space-between;
-            color: #450101;
+            color: sandybrown;
             font-weight: 900;
             position: fixed;    /*pongo una posicion fija para el texto del footer */
             bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
             left: 0;
             right: 0;
             top: 93vh;
-            background-color: orangered;
+            background-color: darkred;
             padding: 0 1rem;
             font-family: Arial, sans-serif;
         }
@@ -342,7 +342,7 @@ if (isset($_GET["listar"]) || isset($_GET["buscar"])) {
 <footer class="footer">
         <h3 id="rights">@2025 ISFTyD24</h3>
         <div id="names">
-            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos</h4>
         </div>
     </footer>
 

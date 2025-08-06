@@ -36,6 +36,8 @@ body{
     display: block;
     justify-content: center;
     align-items: center;
+    color: #e5cb7a;
+    text-shadow: #2c1a0d .1rem .1rem .3rem;
 }
 /*arreglar imagen tienen que quedar apiladas. no una al lado de la otra.*/
 .img{
@@ -90,7 +92,7 @@ footer{
     grid-area: footer;
     display: flex;
     justify-content: space-between;
-    color: #450101;
+    color: #e5cb7a;
     font-weight: 900;
     /* position: fixed;    /*pongo una posicion fija para el texto del footer
     bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado.

@@ -100,13 +100,14 @@ require_once 'navbar.php';
   grid-area: footer;
   display: flex;
   justify-content: space-between;
-  color: #450101;
+  color: sandybrown;
   font-weight: 900;
   position: fixed;         /* 👈 Cambio importante */
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: orangered;
+  background-color: darkred;
+  font-family: Arial, sans-serif;
   padding: 0 1rem;
   z-index: 1000;           /* 👈 Asegura que quede por encima de otros elementos si es necesario */
 }
@@ -177,7 +178,7 @@ echo '</tbody></table>';
     <footer class="footer">
         <h3 id="rights">@2025 ISFTyD24</h3>
         <div id="names">
-            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos</h4>
         </div>
     </footer>
 </body>

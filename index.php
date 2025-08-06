@@ -66,7 +66,7 @@ session_start();
         <h3 id="rights">@2025 ISFTyD24</h3>
         <div id="names">
             <h4>Dana Corsani, Alexis Gomez</h4>
-            <h4>Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+            <h4>Julieta Camara, Ramiro Ramos</h4>
         </div>
     </footer>
     
