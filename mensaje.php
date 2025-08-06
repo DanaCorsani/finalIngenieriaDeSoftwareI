@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    include_once "navbar.html";
+    include_once "navbar.php";
     ?>
     
     <form action="enviar.php" method="post">
