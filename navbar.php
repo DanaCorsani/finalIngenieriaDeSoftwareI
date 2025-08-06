@@ -41,11 +41,12 @@ if(isset($_POST["cerrar"])){
 <nav class="navbar">
     <a href="inicio.php" title="Capacitaciones Mostaza"><button><i class="fas fa-house"></i> Home</button></a>
     <div class="navbar-botones">
-        <a href="cursos.php?listar" title="Cursos"><button>Cursos</button></a>
+        <a href="cursos.php?listar" title="Cursos"><button><i class="fas fa-graduation-cap"></i> Cursos</button></a>
         <?php
             if($_SESSION['rol_id']==1){
                 ?>
-            <a href="usuarios.php?listar"><button>Usuarios</button></a>
+            <a href="usuarios.php?listar"><button><i class="fas fa-users"></i>
+ Usuarios</button></a>
             <?php
             }else{}
             ?>

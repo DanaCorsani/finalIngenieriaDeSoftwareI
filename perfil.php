@@ -155,7 +155,7 @@ require_once 'navbar.php';
     $usu_id = $_SESSION["usu_id"];
     require_once "clases.php";
     $usuario = Usuario::tomarDatos($usu_id);
-        echo '<br><h2 class="titulo-tabla">Mi Desempeño</h2>';
+        echo '<h2 class="titulo-tabla">Mi Desempeño</h2>';
 require_once "clases.php";
 $datos = Curso::obtenerDesempenoUsuario($usu_id);
 

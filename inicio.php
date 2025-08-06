@@ -94,16 +94,17 @@ session_start();
             <img src="mostaza.jpg" alt="Imagen de la Academia">
         </div>
         <div class="botones">
-            <a href="cursos.php?listar"><button>Cursos</button></a>
+            <a href="cursos.php?listar"><button><i class="fas fa-graduation-cap"></i> Cursos</button></a>
             <?php
                 if ($_SESSION["rol_id"] == 1) {
                     ?>
-                    <a href="usuarios.php?listar"><button>Usuarios</button></a>
+                    <a href="usuarios.php?listar"><button><i class="fas fa-users"></i>
+ Usuarios</button></a>
                     <?php
                 }
             ?>
 
-            <a href="perfil.php"><button>Mi Desempeño</button></a>
+            <a href="perfil.php"><button><i class="fas fa-user"></i> Mi Perfil</button></a>
         </div>
     </div>
 
