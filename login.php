@@ -12,14 +12,9 @@ if ($resultado) {
     $_SESSION['dni'] = $resultado['dni'];
     $_SESSION['sucursal'] = $resultado['sucursal'];
     header("Location: inicio.php");
-} elseif($resultado['estado'=="inactivo"]) {
+} else {
     session_start();
-    $_SESSION['msj'] = "Usuario Inactivo. Contacte a su administrador.";
-    header("Location: index.php");
-}
-else {
-    session_start();
-    $_SESSION['msj'] = "Usuario o clave incorrectos";
+    $_SESSION['msj'] = "Usuario o clave incorrectos, o usuario inactivo.";
     header("Location: index.php");
 }
 ?>
