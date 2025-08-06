@@ -8,16 +8,14 @@ require 'conexion.php';
     private $dni;
     private $clave;
     private $rol;
-    private $estado;
 
-    public function __construct($nombre, $apellido, $email, $dni, $clave, $rol, $estado) {
+    public function __construct($nombre, $apellido, $email, $dni, $clave, $rol) {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->email = $email;
         $this->dni = $dni;
         $this->clave = $clave;
         $this->rol = $rol;
-        $this->estado = $estado;
     }
 
     public static function iniciarSesion($email, $clave) {
@@ -81,7 +79,7 @@ require 'conexion.php';
             }
 
             // Si no existe, proceder a insertar el nuevo usuario
-            $sql="insert into usuarios (nombre,apellido,email,dni,clave,rol_id,estado) values ('$this->nombre','$this->apellido','$this->email',$this->dni,'$this->clave',$this->rol,'activo');";
+            $sql="insert into usuarios (nombre,apellido,email,dni,clave,rol_id) values ('$this->nombre','$this->apellido','$this->email',$this->dni,'$this->clave',$this->rol);";
 
             $c->query($sql);
 
