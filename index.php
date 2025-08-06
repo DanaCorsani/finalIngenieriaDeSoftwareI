@@ -23,10 +23,10 @@ session_start();
             <li>Courses</li>
         </ul>
     </nav> -->
-    <main class="main">
+    <main class="main" class="ourBurgers">
         <section>
-            <div class="ourBurgers">
-                <h2 id="mainTitle">Nuestras hamburguesas</h2>
+            <!-- <div class="ourBurgers"> -->
+                <!-- <h2 id="mainTitle">Nuestras hamburguesas</h2> -->
                 <!-- <img class="img" src="" alt="Imagen de una hamburgesa visualmente atractiva"> -->
             </div>
         </section>
@@ -44,12 +44,12 @@ session_start();
                 </div>
                 <div class="logInCheese">
                     <form method="post" action="login.php">
-                    <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" required>
+                    <!-- <label for="usuario">Usuario:</label> -->
+                    <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
                 </div>
                 <div class="logInBurger">
-                    <label for="clave">Contraseña:</label>
-                    <input type="password" id="clave" name="clave" required>
+                    <!-- <label for="clave">Contraseña:</label> -->
+                    <input type="password" id="clave" name="clave" placeholder="Contraseña" required>
                 </div>
                 <div class="logInLettuce">
                     <!-- <p>lettuce placeholder</p> -->
