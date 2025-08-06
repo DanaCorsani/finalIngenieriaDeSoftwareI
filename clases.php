@@ -1,21 +1,23 @@
 <?php
 require 'conexion.php';
 #region Usuario
-class Usuario {
+    class Usuario {
     private $nombre;
     private $apellido;
     private $email;
     private $dni;
     private $clave;
     private $rol;
+    private $estado;
 
-    public function __construct($nombre, $apellido, $email, $dni, $clave, $rol) {
+    public function __construct($nombre, $apellido, $email, $dni, $clave, $rol, $estado) {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->email = $email;
         $this->dni = $dni;
         $this->clave = $clave;
         $this->rol = $rol;
+        $this->estado = $estado;
     }
 
     public static function iniciarSesion($email, $clave) {
@@ -247,7 +249,13 @@ class Curso {
     public static function listar(){
         try{
             $c=conectar();
+
+            # (v) Si el usuario no es administrador, solo podrá ver los cursos activos
+            if($_SESSION['rol_id']==1){
             $sql = "select * from cursos;";
+            }else{
+            $sql = "select * from cursos WHERE estado = 'activo';";
+            }
 
             $resulset = $c->query($sql);
 

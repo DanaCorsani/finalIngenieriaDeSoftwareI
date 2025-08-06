@@ -2,7 +2,7 @@
     require 'clases.php';
     //Si se confirmo la modificacion del Usuario
     if (isset($_POST["modificacion"])){
-        $usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['email'], null, null, null);
+        $usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['email'], null, null, null, null);
         $c = $usuario->modificar($_POST["id"]);
         
         if ($c==true){
@@ -34,6 +34,16 @@
             header("Location: usuarios.php?listar");
             exit;
         }
+?>
+<?php
+# (v) continuo sesion
+session_start();
+# (v) cerrar sesion
+if(isset($_POST["cerrar"])){
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -214,6 +224,21 @@
         .top-bar i {
             pointer-events: none;
         }
+
+        footer{
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+    color: #450101;
+    font-weight: 900;
+    position: fixed;    /*pongo una posicion fija para el texto del footer */
+    bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
+    left: 0;
+    right: 0;
+    background-color: orangered;
+    padding: 0 1rem;
+    font-family: Arial, sans-serif;
+}
     </style>
 </head>
 <body>
@@ -326,7 +351,7 @@
             </form>
             <?php
             if (isset($_POST["cargar"])) {
-            $usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['dni'], $_POST['clave'], $_POST['rol']);
+            $usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['dni'], $_POST['clave'], $_POST['rol'], $_POST['activo']);
             $resultado=$usuario->cargar();
 
             if($resultado==true){
@@ -426,5 +451,12 @@
             echo "<br><br><br><h2>No se ha eliminado al Usuario</h2>";
         }
     ?>
+
+    <footer class="footer">
+        <h3 id="rights">@2025 ISFTyD24</h3>
+        <div id="names">
+            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+        </div>
+    </footer>
 </body>
 </html>

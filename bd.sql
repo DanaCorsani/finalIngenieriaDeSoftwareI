@@ -7,10 +7,10 @@ CREATE TABLE roles (
   rol_desc   VARCHAR(30) NOT NULL
 );
 
-select * from preguntas;
-DELETE FROM preguntas where cur_id=1;
+#select * from preguntas;
+#DELETE FROM preguntas where cur_id=1;
 
-select * from opciones;
+#select * from opciones;
 
 CREATE TABLE usuarios (
   usu_id       INT PRIMARY KEY AUTO_INCREMENT,
@@ -82,4 +82,5 @@ insert into roles (rol_id,rol_desc) values
 (2,'usuario');
 
 insert into usuarios(nombre,apellido,clave,dni,email,estado,rol_id) values
-('alexis','gomez',1234,12345678,'alexis@mostaza.com','activo',1);
+('alexis','gomez',1234,12345678,'alexis@mostaza.com','activo',1),
+('julieta','camara',1111,98765432,'jc@mostaza.com','activo',2);

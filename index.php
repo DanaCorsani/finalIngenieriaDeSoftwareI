@@ -76,5 +76,10 @@ session_start();
         unset($_SESSION['msj']);
     }
     ?>
+    <?php
+    # termino sesion para que el usuario tenga que loguearse para volver a entrar
+        session_unset();
+        session_destroy();
+    ?>
 </body>
 </html>
