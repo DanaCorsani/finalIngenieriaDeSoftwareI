@@ -216,7 +216,7 @@ if(isset($_POST["cerrar"])){
             justify-content: space-between;
             color: #450101;
             font-weight: 900;
-            position: absolute;    /*pongo una posicion fija para el texto del footer */
+            position: static;    /*pongo una posicion fija para el texto del footer */
             bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
             left: 0;
             right: 0;
@@ -367,12 +367,6 @@ if(isset($_POST["cerrar"])){
             
         </div>
 
-        <footer class="footer">
-        <h3 id="rights">@2025 ISFTyD24</h3>
-        <div id="names">
-            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
-        </div>
-    </footer>
 
         <?php
         echo '</div>'; // cierre de .detalle-container
