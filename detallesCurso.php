@@ -12,7 +12,14 @@ if (isset($_POST['cambiarEstado'])){
     exit;
 }
 ?>
-
+<?php
+# (v) cerrar sesion
+if(isset($_POST["cerrar"])){
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -181,8 +188,42 @@ if (isset($_POST['cambiarEstado'])){
         #formularioCurso input[type="submit"]:hover {
         background-color: #e6b800;
         }
+
+        /* Boton cancelar carga */
+        form.cancelar{
+            display: block; 
+            margin: 0 45vw; 
+            margin-bottom: 2vh;
+        }
+        form.cancelar input{
+            display: block;
+            max-width: 200px;
+            margin: 25px auto 0 auto;
+            padding: 10px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        footer{
+            grid-area: footer;
+            display: flex;
+            justify-content: space-between;
+            color: #450101;
+            font-weight: 900;
+            position: absolute;    /*pongo una posicion fija para el texto del footer */
+            bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
+            left: 0;
+            right: 0;
+            background-color: orangered;
+            padding: 0 1rem;
+            font-family: Arial, sans-serif;
+        }
     </style>
-  
 </head>
 <body>
     <?php
@@ -239,6 +280,9 @@ if (isset($_POST['cambiarEstado'])){
             </a>
 
             <!-- Botón para cambiar estado -->
+             <?php
+            if($_SESSION['rol_id']==1){
+                ?>
             <?php
             $estado = $detalles['estado'];
             $icono = $estado === 'activo' ? 'fa-eye' : 'fa-eye-slash';
@@ -261,8 +305,14 @@ if (isset($_POST['cambiarEstado'])){
                     </span>
                 </button>
             </form>
+            <?php
+            }else{}
+            ?>
 
             <!-- Botón Modificar -->
+             <?php
+            if($_SESSION['rol_id']==1){
+                ?>
             <form action="?modificar" method="post">
                 <button title="Modificar" type="submit" name="modificar" value="<?= $_GET['curso'] ?>">
                     <i class="fas fa-edit"></i> Modificar
@@ -272,10 +322,13 @@ if (isset($_POST['cambiarEstado'])){
             }
             ?>
             
-
+            
             <?php
             $resultado = Curso::tieneExamen($_GET['curso']);
             if ($resultado==false){
+                ?>
+                <?php
+                if($_SESSION['rol_id']==1){
                 ?>
                 <!-- Botón Crear Examen -->
                 <form action="crearExamen.php" method="post">
@@ -283,6 +336,9 @@ if (isset($_POST['cambiarEstado'])){
                         <i class="fas fa-file-lines"></i> Crear Examen
                     </button>
                     </form>
+                <?php
+                }else{echo "<br><p>Actualmente no puede realizar este examen.</p>";}
+                ?>
                 <?php
             } else{
                 require_once "clases.php";
@@ -316,6 +372,13 @@ if (isset($_POST['cambiarEstado'])){
             
         </div>
 
+        <footer class="footer">
+        <h3 id="rights">@2025 ISFTyD24</h3>
+        <div id="names">
+            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+        </div>
+    </footer>
+
         <?php
         echo '</div>'; // cierre de .detalle-container
     }
@@ -346,7 +409,6 @@ if (isset($_POST['cambiarEstado'])){
 
             if ($registro){
                 ?>
-                <br>
                 <div class="formularios">
                 <form id="formularioCurso" method="post" action="?">
                     <h2>Modificacion de Curso</h2>
@@ -368,10 +430,17 @@ if (isset($_POST['cambiarEstado'])){
                     <textarea name="desc" id="desc" required><?= $registro["cur_desc"] ?></textarea>
                     <input type="submit" name="modificacion" value="Aceptar" onclick="return confirm('¿Está seguro?');">
                 </form>
-                <form method="post" action="?">
+                <form class="cancelar" method="post" action="?">
                     <input type="submit" value="Cancelar" formAction="detallesCurso.php?curso=<?= $registro['cur_id'] ?>">
                 </form>
                 </div>
+
+                <footer class="footer">
+        <h3 id="rights">@2025 ISFTyD24</h3>
+        <div id="names">
+            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+        </div>
+    </footer>
                 <?php
             }
             else{

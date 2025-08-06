@@ -179,6 +179,22 @@ session_start();
         .top-bar i {
             pointer-events: none;
         }
+
+        footer{
+            grid-area: footer;
+            display: flex;
+            justify-content: space-between;
+            color: #450101;
+            font-weight: 900;
+            position: fixed;    /*pongo una posicion fija para el texto del footer */
+            bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
+            left: 0;
+            right: 0;
+            top: 93vh;
+            background-color: orangered;
+            padding: 0 1rem;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -190,9 +206,16 @@ session_start();
         <div class="left">
             <a href="?listar"><button>Lista de Cursos</button></a>
         </div>
-        <div class="center">
+        <?php
+            if($_SESSION['rol_id']==1){
+                ?>
+            <div class="center">
             <a href="?altas"><button>Cargar Curso</button></a>
-        </div>
+            </div>
+            <?php
+            }else{}
+            ?>
+        
         <div class="right">
             <form method="get" action="?buscar">
                 <input type="text" name="buscar" placeholder="Buscar..." required>
@@ -318,6 +341,12 @@ if (isset($_GET["listar"]) || isset($_GET["buscar"])) {
         
     ?>
 
+<footer class="footer">
+        <h3 id="rights">@2025 ISFTyD24</h3>
+        <div id="names">
+            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+        </div>
+    </footer>
 
 
     <script>

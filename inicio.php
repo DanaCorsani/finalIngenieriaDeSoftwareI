@@ -1,3 +1,7 @@
+<?php
+# (v) continuo sesion
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +66,20 @@
         .botones a button:hover {
             background-color: #e6b800;
         }
+
+        footer{
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+    color: #450101;
+    font-weight: 900;
+    position: fixed;    /*pongo una posicion fija para el texto del footer */
+    bottom: 0;          /*setteo que el texto quede bien al final de la pagina, pegado. */
+    left: 0;
+    right: 0;
+    background-color: orangered;
+    padding: 0 1rem;
+}
     </style>
 </head>
 <body>
@@ -88,5 +106,12 @@
             <a href="mensaje.php"><button>Enviar un mensaje</button></a>
         </div>
     </div>
+
+    <footer class="footer">
+        <h3 id="rights">@2025 ISFTyD24</h3>
+        <div id="names">
+            <h4>Dana Corsani, Alexis Gomez, Julieta Camara, Ramiro Ramos, Leonardo Camacho </h4>
+        </div>
+    </footer>
 </body>
 </html>
