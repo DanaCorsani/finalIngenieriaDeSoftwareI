@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "navbar.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -198,9 +199,6 @@ session_start();
     </style>
 </head>
 <body>
-    <?php
-    include_once "navbar.php";
-    ?>
     
     <div class="top-bar">
         <div class="left">
